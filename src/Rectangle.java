@@ -6,16 +6,19 @@ public class Rectangle extends Figure {
     int width = 0 ;
 
     public Rectangle(int px, int py, Color c){
-
+        this.c = c;
+        p.X = px;
+        p.Y = py;
     }
 
     @Override
     public void setBoundingBox(int heightBB, int widthBB) {
-
+        length = heightBB;
+        width = widthBB;
     }
 
     @Override
-    public void draw(Graphics g) {
+    public void draw(Graphics g) {}
 
-    }
+
 }

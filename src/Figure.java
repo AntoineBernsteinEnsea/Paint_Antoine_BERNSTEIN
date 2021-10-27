@@ -3,14 +3,17 @@ import java.awt.*;
 abstract public class Figure {
 
     protected Color c;
+    protected Point p;
 
 
     public Figure(){
-        this.c = new Color(0, 255, 0);//green
+        c = new Color(0, 255, 0);//green
+        p = new Point();
     }
 
     public Figure( Color color , Point point ){
-        this.c = color;
+        c = color;
+        p = point;
     }
 
 
