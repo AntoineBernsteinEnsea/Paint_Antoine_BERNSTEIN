@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.awt.*;
 
 public class Main {
@@ -7,6 +8,8 @@ public class Main {
         Circle circle = new Circle(0,0, Color.GREEN);
         Square s = new Square(0,0,Color.black);
         System.out.println(circle.getColor());
+        JOptionPane info = new JOptionPane();
+        info.showInternalMessageDialog(info, "authors : antoine", "authors", JOptionPane.INFORMATION_MESSAGE);
     }
 
 }
