@@ -18,7 +18,14 @@ public class Rectangle extends Figure {
     }
 
     @Override
-    public void draw(Graphics g) {}
+    public void draw(Graphics g) {
+        g.setColor(c);
+        g.fillRect(p.X, p.Y,width,length);
+    }
 
+    @Override
+    public String toString() {
+        return " Rectangle de Couleur = "+ c;
+    }
 
 }

@@ -14,6 +14,9 @@ public class Square extends Rectangle {
         else {super.setBoundingBox(widthBB,widthBB);}
     }
 
-
+    @Override
+    public String toString() {
+        return "Carré de Couleur = "+ c;
+    }
 }
 

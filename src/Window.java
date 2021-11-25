@@ -15,6 +15,7 @@ public class Window extends JFrame implements ActionListener {
 
         super(Title);
         this.setSize(X+14,Y);
+        drawing.setSize(X,Y-120);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         int NbButtons = 12;
@@ -73,6 +74,8 @@ public class Window extends JFrame implements ActionListener {
             Button.addActionListener(this);
         }
 
+
+        //ces deux boucles permettent de répartir correctement les boutons sur le bas de la fenêtre à l'ouverture d'une fenêtre de paint
         for (int i=0;i<8;i++){ //Boutons pour les couleurs
             ButtonList.get(i).setBounds(((i%4)*X/8),Y-(60+(1+i/4)*Y/20),X/8,Y/20);
             ButtonList.get(i).setBackground(List_color.get(i));
@@ -82,7 +85,7 @@ public class Window extends JFrame implements ActionListener {
             ButtonList.get(i+8).setBounds(((i%2)*X/4)+X/2,Y-(60+(1+i/2)*Y/20),X/4,Y/20);
         }
 
-        //drawing
+        this.getContentPane().add(drawing);
 
         this.setJMenuBar(Menubar);
         this.setLayout(null);
@@ -101,7 +104,10 @@ public class Window extends JFrame implements ActionListener {
                 break;
 
             case "Red" :
+                System.out.println(drawing.c);
                 drawing.setC(RED);
+                System.out.println("red clicked");
+                System.out.println(drawing.c);
                 break;
 
             case "Green" :
@@ -126,7 +132,22 @@ public class Window extends JFrame implements ActionListener {
 
             case "Orange" :
                 drawing.setC(ORANGE);
-                System.out.println("Orange");
+                break;
+
+            case "Rectangle" :
+                drawing.setNameFigure("Rectangle");
+                break;
+
+            case "Square" :
+                drawing.setNameFigure("Square");
+                break;
+
+            case "Ellipse" :
+                drawing.setNameFigure("Ellipse");
+                break;
+
+            case "Circle" :
+                drawing.setNameFigure("Circle");
                 break;
 
             case "Authors" :
@@ -139,7 +160,7 @@ public class Window extends JFrame implements ActionListener {
     public static void main(String[] args)
     {
 
-        new Window("Paint",1000,700);
+        new Window("Paint",800,600);
     }
 
 }

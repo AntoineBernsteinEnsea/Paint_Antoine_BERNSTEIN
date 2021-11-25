@@ -14,5 +14,9 @@ public class Circle extends Ellipse{
         else {super.setBoundingBox(widthBB,widthBB);}
     }
 
+    @Override
+    public String toString() {
+        return "Cercle de Couleur = "+ c;
+    }
 
 }

@@ -13,12 +13,20 @@ public class Ellipse extends Figure {
 
     @Override
     public void setBoundingBox(int heightBB, int widthBB) {
-        SemiAxisX = widthBB/2;
-        SemiAxisY = heightBB/2;
+        SemiAxisX = widthBB;
+        SemiAxisY = heightBB;
     }
 
     @Override
-    public void draw(Graphics g) {}
+    public void draw(Graphics g) {
+        g.setColor(c);
+        g.fillOval(p.X, p.Y,SemiAxisX,SemiAxisY);
+    }
+
+    @Override
+    public String toString() {
+        return "Ellipse de Couleur = "+ c;
+    }
 
 
 }
