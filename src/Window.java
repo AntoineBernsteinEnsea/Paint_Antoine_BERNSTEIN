@@ -1,8 +1,10 @@
 import javax.swing.*;
-import java.awt.Color;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
 import java.util.*;
+import java.util.List;
 
 import static java.awt.Color.*;
 
@@ -14,38 +16,96 @@ public class Window extends JFrame implements ActionListener {
     public Window(String Title, int X, int Y){
 
         super(Title);
-        this.setSize(X+14,Y);
-        drawing.setSize(X,Y-120);
+        this.setSize(X,Y);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        Container pane = this.getContentPane();
 
         int NbButtons = 12;
-        //float BYS = Y/20; //ButtonYSize
-        //float BXS = X/4; //ButtonXSize
-        //float BXSC = X/8; //ButtonXSizeColor
-
 
         //Partie Menus
         JMenuBar Menubar = new JMenuBar(); // Barre de menu
 
+
+
         JMenu File_Menu = new JMenu("File"); // Menu dans la barre de menu
 
+        JMenu Edit_Menu = new JMenu("Edit");
 
         JMenu A_propos_Menu = new JMenu("A propos");
+
+
+
+
+
+        JMenuItem New_Item, Open_Item, Save_Item, Quit_Item; //Items dans le menu "File"
+        New_Item = new JMenuItem(new AbstractAction("New") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                drawing.Figures_List.clear();
+                drawing.repaint();
+            }
+        });
+        Open_Item = new JMenuItem(new AbstractAction("Open") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    String FileName_open = JOptionPane.showInputDialog(null, "Name of the file to open", "Open", JOptionPane.INFORMATION_MESSAGE);
+                    if ((FileName_open != null)&&(FileName_open.length()>0) ){
+                        drawing.open(FileName_open);
+                        drawing.repaint();
+                    }
+                }
+                catch (Exception e1){
+                    e1.printStackTrace();
+                }
+            }
+        });
+        Save_Item = new JMenuItem(new AbstractAction("Save") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                String FileName_close = JOptionPane.showInputDialog(null,"Name your file","Save",JOptionPane.INFORMATION_MESSAGE);
+                if((FileName_close !=null)&&(FileName_close.length()>0)){
+                    drawing.save(FileName_close);
+                }
+            }
+        });
+        Quit_Item = new JMenuItem(new AbstractAction("Quit") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+            }
+        });
+
+        JMenuItem Undo = new JMenuItem(new AbstractAction("Undo") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (drawing.Figures_List.size()!=0){
+                    drawing.Figures_List.remove(drawing.Figures_List.size()-1);
+                    drawing.repaint();
+                }
+            }
+        });
+
         JMenuItem Authors = new JMenuItem(new AbstractAction("Authors") {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JOptionPane.showInternalMessageDialog(info, "Authors : Antoine BERNSTEIN","Authors",JOptionPane.INFORMATION_MESSAGE);
             }
         });
+;
+
+
+
+        File_Menu.add(New_Item); File_Menu.add(Save_Item); File_Menu.add(Open_Item); File_Menu.add(Quit_Item);
+
+        Edit_Menu.add(Undo);
+
         A_propos_Menu.add(Authors);
 
 
-        JMenuItem New_Item, Open_Item, Save_Item, Quit_Item; //Items dans le menu "File"
-        New_Item = new JMenuItem("New");Open_Item = new JMenuItem("Open");
-        Save_Item = new JMenuItem("Save");Quit_Item = new JMenuItem("Quit");
-        File_Menu.add(New_Item); File_Menu.add(Save_Item); File_Menu.add(Open_Item); File_Menu.add(Quit_Item);
 
-        Menubar.add(File_Menu);Menubar.add(A_propos_Menu);
+        Menubar.add(File_Menu);Menubar.add(Edit_Menu);Menubar.add(A_propos_Menu);
 
 
 
@@ -70,25 +130,42 @@ public class Window extends JFrame implements ActionListener {
         ButtonList.add(Ellipse_Button); ButtonList.add(Circle_Button); ButtonList.add(Rectangle_Button); ButtonList.add(Square_Button);
 
         for (JButton Button : ButtonList){
-            this.add(Button);
             Button.addActionListener(this);
         }
 
 
-        //ces deux boucles permettent de répartir correctement les boutons sur le bas de la fenêtre à l'ouverture d'une fenêtre de paint
         for (int i=0;i<8;i++){ //Boutons pour les couleurs
-            ButtonList.get(i).setBounds(((i%4)*X/8),Y-(60+(1+i/4)*Y/20),X/8,Y/20);
             ButtonList.get(i).setBackground(List_color.get(i));
         }
 
-        for (int i=0;i<4;i++){ //Boutons pour les formes
-            ButtonList.get(i+8).setBounds(((i%2)*X/4)+X/2,Y-(60+(1+i/2)*Y/20),X/4,Y/20);
+
+        //Partie organisation de l'affichage
+
+        pane.setLayout(new BorderLayout());
+
+        JPanel B_C = new JPanel();
+        JPanel B_F = new JPanel();
+        JPanel B = new JPanel();
+
+        for (int i=0;i<8;i++){
+            B_C.add(ButtonList.get(i));
+        }
+        for (int i=8;i<12;i++){
+            B_F.add(ButtonList.get(i));
         }
 
-        this.getContentPane().add(drawing);
+
+        B_C.setLayout(new GridLayout(2,4));
+        B_F.setLayout(new GridLayout(2,2));
+        B.setLayout(new GridLayout(1,2));
+        B.add(B_C);
+        B.add(B_F);
+
+        pane.add(drawing, BorderLayout.CENTER);
+        pane.add(B, BorderLayout.SOUTH);
+
 
         this.setJMenuBar(Menubar);
-        this.setLayout(null);
         this.setVisible(true);
 
     }
@@ -104,10 +181,7 @@ public class Window extends JFrame implements ActionListener {
                 break;
 
             case "Red" :
-                System.out.println(drawing.c);
                 drawing.setC(RED);
-                System.out.println("red clicked");
-                System.out.println(drawing.c);
                 break;
 
             case "Green" :
@@ -152,6 +226,7 @@ public class Window extends JFrame implements ActionListener {
 
             case "Authors" :
                 JOptionPane.showInternalMessageDialog(info, "Authors : Antoine BERNSTEIN","Authors",JOptionPane.INFORMATION_MESSAGE);
+                break;
 
         }
     }

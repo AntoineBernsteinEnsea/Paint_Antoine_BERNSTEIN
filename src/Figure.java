@@ -1,6 +1,7 @@
 import java.awt.*;
+import java.io.Serializable;
 
-abstract public class Figure {
+abstract public class Figure implements Serializable {
 
     protected Color c;
     protected Point p;
@@ -15,7 +16,6 @@ abstract public class Figure {
         c = color;
         p = point;
     }
-
 
 
 

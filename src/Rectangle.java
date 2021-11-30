@@ -1,6 +1,8 @@
 import java.awt.*;
 
-public class Rectangle extends Figure {
+import static java.lang.Math.abs;
+
+public class Rectangle extends Figure{
 
     int length = 0 ;
     int width = 0 ;
@@ -20,7 +22,7 @@ public class Rectangle extends Figure {
     @Override
     public void draw(Graphics g) {
         g.setColor(c);
-        g.fillRect(p.X, p.Y,width,length);
+        g.fillRect(p.X+(width-abs(width))/2, p.Y+(length-abs(length))/2, abs(width),abs(length));
     }
 
     @Override

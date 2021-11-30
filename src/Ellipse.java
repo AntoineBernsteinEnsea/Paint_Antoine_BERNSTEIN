@@ -1,5 +1,7 @@
 import java.awt.*;
 
+import static java.lang.Math.abs;
+
 public class Ellipse extends Figure {
 
     int SemiAxisX = 0;
@@ -20,7 +22,7 @@ public class Ellipse extends Figure {
     @Override
     public void draw(Graphics g) {
         g.setColor(c);
-        g.fillOval(p.X, p.Y,SemiAxisX,SemiAxisY);
+        g.fillOval(p.X+(SemiAxisX-abs(SemiAxisX))/2, p.Y+(SemiAxisY-abs(SemiAxisY))/2,abs(SemiAxisX),abs(SemiAxisY));
     }
 
     @Override
